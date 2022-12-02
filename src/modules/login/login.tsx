@@ -29,9 +29,6 @@ export function Login() {
     dispatch(actionCreators.googleLoginFailed())
   }
 
-  const testId =
-    '169589393731-fcq6osljk6rq7hta5t5mcumtkf963r60.apps.googleusercontent.com'
-
   return (
     <div className="auth-login" data-testid="login-page-title">
       <div className="hero-body">
@@ -79,7 +76,9 @@ export function Login() {
                         <div>
                           <GoogleLogin
                             className="google-login-button"
-                            clientId={`${testId}`}
+                            clientId={`${
+                              import.meta.env.REACT_APP_GOOGLE_CLIENT_ID
+                            }`}
                             buttonText="Login via Google"
                             onSuccess={handleSuccess}
                             onFailure={handleFailure}
