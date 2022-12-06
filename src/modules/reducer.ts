@@ -1,7 +1,6 @@
 import { Reducer } from 'redux';
 import {AuthState } from './interface';
 import { deleteToken, setToken } from '../utils/token';
-
 export const actionTypes = {
     GET_PROFILE_REQUEST: 'GET_PROFILE_REQUEST',
     GET_PROFILE_SUCCESS: 'GET_PROFILE_SUCCESS',

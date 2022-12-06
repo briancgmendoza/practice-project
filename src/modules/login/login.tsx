@@ -28,7 +28,7 @@ export function Login() {
   const handleFailure = () => {
     dispatch(actionCreators.googleLoginFailed())
   }
-
+  
   return (
     <div className="auth-login" data-testid="login-page-title">
       <div className="hero-body">
@@ -46,6 +46,7 @@ export function Login() {
                   <div className="container">
                     <div className="banner">
                       <div className="login-format">
+                      
                         <img
                           className="entrego-logo"
                           src="https://rec-data.kalibrr.com/logos/LDC3AY6PVYPWEJD4SMTGGC63GX96WNTQMGSHWJBX-5bad80fb.png"

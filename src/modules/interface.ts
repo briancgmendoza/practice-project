@@ -35,5 +35,4 @@ export interface Profile {
     accessToken?: string;
     googleId?: string;
     refreshToken?: string;
-    
 }
