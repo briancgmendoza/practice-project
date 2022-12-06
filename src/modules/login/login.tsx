@@ -1,8 +1,8 @@
-import React from 'react'
-// import { Link } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Navigate } from 'react-router-dom';
 import '../../styles/_login.scss'
 import ProgressiveImage from 'react-progressive-graceful-image'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { IconButton, Tooltip } from '@mui/material'
 import InfoIcon from '@material-ui/icons/Info'
 import {
@@ -11,10 +11,17 @@ import {
   GoogleLoginResponseOffline,
 } from 'react-google-login'
 import { system } from '../../utils/constants'
-import { actionCreators } from '../reducer'
+import { actionCreators as loginAction } from './reducer'
+import { ApplicationState } from '../../store/reducer';
 
 export function Login() {
   const dispatch = useDispatch()
+  const isLoading = useSelector(
+    (state: ApplicationState) => state.login.isLoading
+  );
+  const isAuthenticated = useSelector(
+    (state: ApplicationState) => state.login.isAuthenticated
+  );
 
   const handleSuccess = (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
@@ -22,13 +29,17 @@ export function Login() {
     const { googleId, profileObj } = response as GoogleLoginResponse
     const { imageUrl } = profileObj
     const { tokenId: googleIdToken } = response as GoogleLoginResponse
-    dispatch(actionCreators.googleLogin({ googleId, googleIdToken, imageUrl }))
+    dispatch(loginAction.googleLogin({ googleId, googleIdToken, imageUrl }))
   }
 
   const handleFailure = () => {
-    dispatch(actionCreators.googleLoginFailed())
+    dispatch(loginAction.googleLoginFailed())
   }
-  
+
+  if (isAuthenticated) {
+    return <Navigate to="/dashboard" />;
+  }
+
   return (
     <div className="auth-login" data-testid="login-page-title">
       <div className="hero-body">
@@ -46,7 +57,6 @@ export function Login() {
                   <div className="container">
                     <div className="banner">
                       <div className="login-format">
-                      
                         <img
                           className="entrego-logo"
                           src="https://rec-data.kalibrr.com/logos/LDC3AY6PVYPWEJD4SMTGGC63GX96WNTQMGSHWJBX-5bad80fb.png"
@@ -77,9 +87,9 @@ export function Login() {
                         <div>
                           <GoogleLogin
                             className="google-login-button"
-                            clientId={`${
-                              import.meta.env.REACT_APP_GOOGLE_CLIENT_ID
-                            }`}
+                            clientId={
+                              `${import.meta.env.VITE_REACT_APP_GOOGLE_CLIENT_ID}`
+                            }
                             buttonText="Login via Google"
                             onSuccess={handleSuccess}
                             onFailure={handleFailure}
@@ -103,7 +113,6 @@ export function Login() {
           )}
         </ProgressiveImage>
       </div>
-      {/* <Dashboard /> */}
     </div>
   )
 }
