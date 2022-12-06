@@ -13,4 +13,4 @@ export const googleLogin = (body: object) =>
     request('hubm/users/auth/google', { method: 'POST', body });
 
 export const refreshToken = (body: object) => 
-    request('users/auath/app/authenticate', { method: 'POST', body });
+    request('users/auth/app/authenticate', { method: 'POST', body });
