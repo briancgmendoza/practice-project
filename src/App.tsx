@@ -15,6 +15,7 @@ function App() {
         <Route path='/' element={<Login />} />
         <Route path={routes[0].path} element={routes[0].component} />
         <Route path={routes[1].path} element={routes[1].component} />
+        <Route path={routes[2].path} element={routes[2].component} />
       </Routes>
     </Router>
   );
