@@ -113,7 +113,7 @@ export default function MiniDrawer() {
             <IconButton onClick={() => setOpen(!open)}>
               <Box sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab disabled aria-label="like">
-                  { open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                  { open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </Fab>
               </Box>
             </IconButton>
