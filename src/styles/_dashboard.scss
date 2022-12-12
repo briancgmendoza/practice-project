@@ -1,0 +1,15 @@
+.container {
+    background-color: antiquewhite;
+    padding: 20px;
+    width: 500px;
+    justify-content: center;
+    margin: auto;
+    .form {
+        display: flex;
+        flex-direction: column;
+        textarea {
+            min-width: 450px;
+            min-height: 20px;
+        }
+    }
+}

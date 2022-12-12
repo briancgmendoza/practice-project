@@ -1,13 +1,13 @@
 import React from 'react';
 import MiniDrawer from '../drawer/drawer';
-import DashboardTable from './dashboardTable';
+import Form from './form';
 
 export function Dashboard() {
   return (
     <>
       <MiniDrawer />
       <div data-testid="dashboard-title">Welcome to Dashboard</div>
-      <DashboardTable />
+      <Form />
     </>
   )
 }
