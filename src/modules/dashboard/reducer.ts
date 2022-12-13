@@ -3,6 +3,7 @@ const actionTypes =  {
     ADD_YESTERDAY: 'ADD_YESTERDAY',
     GET_TODAY: 'GET_TODAY',
     ADD_TODAY: 'ADD_TODAY',
+    DISPLAY_DATA: 'DISPLAY_DATA',
     DELETE: 'DELETE',
 }
 
@@ -25,6 +26,11 @@ const getToday = (details: string) => {
 }
 const reducer = ( state = initialState, action: any ) => {
     switch (action) {
+        case actionTypes.DISPLAY_DATA:
+            return {
+                ...state,
+                display: action.payload
+            }
         case actionTypes.GET_YESTERDAY:
             return {
                 ...state,
