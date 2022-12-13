@@ -7,9 +7,13 @@
     .form {
         display: flex;
         flex-direction: column;
+        justify-content: end;
         textarea {
             min-width: 450px;
             min-height: 20px;
+        }
+        .submitBtn {
+            width: 100px;
         }
     }
 }
