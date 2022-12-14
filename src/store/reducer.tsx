@@ -1,11 +1,10 @@
 import { combineReducers } from 'redux';
-
-import login from '../modules/login/reducer';
-// import dashboard from '../modules/dashboard/reducer'
+import loginReducer from '../modules/login/reducer';
+import dashboardReducer from '../modules/dashboard/reducer'
 
 export const rootReducer = combineReducers({
-  login,
-  // dashboard
+  login: loginReducer,
+  dashboard: dashboardReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;

@@ -1,37 +1,49 @@
 const actionTypes =  {
-    GET_YESTERDAY: 'GET_YESTERDAY',
+    GET_TASK_YESTERDAY: 'GET_TASK_YESTERDAY',
     ADD_YESTERDAY: 'ADD_YESTERDAY',
     GET_TODAY: 'GET_TODAY',
     ADD_TODAY: 'ADD_TODAY',
     DISPLAY_DATA: 'DISPLAY_DATA',
     DELETE: 'DELETE',
-}
+};
+ 
+// export const saveData = (task: string | null) => async dispatch => {
+//     const data = localStorage.getItem('taskList') ? JSON.parse(localStorage.getItem('taskList')) : [];
+// }
+
 
 const initialState = {
     taskList: []
+};
+
+if (localStorage.getItem('taskList')) {
+    // initialState.taskList = JSON.parse(localStorage.getItem('taskList'));
+} else {
+    initialState.taskList = [];
 }
 
-const getYesterday = (details: string) => {
+const getTaskYesterday = (details: string) => {
     return {
-        type: actionTypes.GET_YESTERDAY,
+        type: actionTypes.GET_TASK_YESTERDAY,
         details,
     }
 }
 
-const getToday = (details: string) => {
+const getTaskToday = (details: string) => {
     return {
         type: actionTypes.GET_TODAY,
         details
     }
 }
-const reducer = ( state = initialState, action: any ) => {
+const dashboardReducer = ( state = initialState, action: any ) => {
     switch (action) {
         case actionTypes.DISPLAY_DATA:
             return {
+                // taskList: [...action.payload],
                 ...state,
                 display: action.payload
             }
-        case actionTypes.GET_YESTERDAY:
+        case actionTypes.GET_TASK_YESTERDAY:
             return {
                 ...state,
                 yesterday: action.payload
@@ -56,4 +68,4 @@ const reducer = ( state = initialState, action: any ) => {
     };
 };
 
-export default reducer;
+export default dashboardReducer;
