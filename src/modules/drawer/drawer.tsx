@@ -24,7 +24,8 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import BuildIcon from '@mui/icons-material/Build';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import Fab from '@mui/material/Fab';
-import Header from '../header/header'
+import Header from '../header/header';
+import DashboardTable from '../dashboard/dashboard-table';
 
 const drawerWidth = 240;
 
@@ -164,6 +165,7 @@ export default function MiniDrawer() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3}}>
           <DrawerHeader />
+          <DashboardTable />
         </Box>
       </Box>
     </>

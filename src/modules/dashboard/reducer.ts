@@ -1,67 +1,46 @@
-const actionTypes =  {
-    GET_TASK_YESTERDAY: 'GET_TASK_YESTERDAY',
-    ADD_YESTERDAY: 'ADD_YESTERDAY',
-    GET_TODAY: 'GET_TODAY',
-    ADD_TODAY: 'ADD_TODAY',
-    DISPLAY_DATA: 'DISPLAY_DATA',
-    DELETE: 'DELETE',
-};
- 
-// export const saveData = (task: string | null) => async dispatch => {
-//     const data = localStorage.getItem('taskList') ? JSON.parse(localStorage.getItem('taskList')) : [];
-// }
+import { taskLogState } from './interface';
 
+export const actionTypes =  {
+    GET_TASK_START: 'GET_TASK_START',
+    GET_TASK_SUCCESS: 'GET_TODAY_SUCCESS',
+    GET_TASK_ERROR: 'GET_TASK_ERROR'
+};
 
 const initialState = {
-    taskList: []
-};
+    taskLog: [],
+    loading: false
+} as taskLogState;
 
-if (localStorage.getItem('taskList')) {
-    // initialState.taskList = JSON.parse(localStorage.getItem('taskList'));
-} else {
-    initialState.taskList = [];
-}
+export const getTaskStart = () => ({
+    type: actionTypes.GET_TASK_START,
+});
 
-const getTaskYesterday = (details: string) => {
-    return {
-        type: actionTypes.GET_TASK_YESTERDAY,
-        details,
-    }
-}
+export const getTaskSuccess = (taskLog: string) => ({
+    type: actionTypes.GET_TASK_SUCCESS,
+    payload: taskLog,
+});
 
-const getTaskToday = (details: string) => {
-    return {
-        type: actionTypes.GET_TODAY,
-        details
-    }
-}
+export const getTaskError = (error: string) => ({
+    type: actionTypes.GET_TASK_ERROR,
+    payload: error,
+});
+
 const dashboardReducer = ( state = initialState, action: any ) => {
     switch (action) {
-        case actionTypes.DISPLAY_DATA:
+        case actionTypes.GET_TASK_START:
             return {
-                // taskList: [...action.payload],
                 ...state,
                 display: action.payload
             }
-        case actionTypes.GET_TASK_YESTERDAY:
+        case actionTypes.GET_TASK_SUCCESS:
             return {
                 ...state,
-                yesterday: action.payload
+                display: action.payload
             };
-        case actionTypes.ADD_YESTERDAY:
+        case actionTypes.GET_TASK_ERROR:
             return {
                 ...state,
-                yesterday: action.payload
-            };
-        case actionTypes.GET_TODAY:
-            return {
-                ...state,
-                today: action.payload
-            };
-        case actionTypes.ADD_TODAY:
-            return {
-                ...state,
-                today: action.payload
+                display: action.payload
             };
         default:
             return state;
