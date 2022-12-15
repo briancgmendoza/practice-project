@@ -1,19 +1,20 @@
-import { TextareaAutosize } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import Moment from 'react-moment';
-import '../../styles/_dashboard.scss';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTaskStart } from './reducer';
+import { taskLogState } from './interface';
 import Button from '@mui/material/Button';
 
-const Form = () => {
+const AddTaskLog = () => {
+  const dispatch = useDispatch();
+  const {taskLog} = useSelector((state: taskLogState) => state.taskLog);
 
-    const handleSubmit = (e: any) => {
-        alert('New saved log');
-        e.preventDefault();
-    }
-    
+  useEffect(() => {
+    dispatch(getTaskStart());
+  }, []);
+
   return (
-    <div className="container">
-        <form className="form" onSubmit={handleSubmit}>
+    <div>
+      <form className="form">
             <label>
                 <textarea placeholder="What you did yesterday?"/>
             </label>
@@ -29,4 +30,4 @@ const Form = () => {
   )
 }
 
-export default Form
+export default AddTaskLog
