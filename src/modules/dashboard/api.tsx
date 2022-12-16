@@ -1,5 +1,9 @@
 import axios from 'axios';
 
-export const taskLogApi = async () => {
-    await axios.get("http://localhost:500/task")
-}
+export const tasksLogApi = async () => {
+    await axios.get("http://localhost:5000/tasks")
+};
+
+export const taskLogApi = async (tasks: any) => {
+    await axios.post("http://localhost:5000/tasks", tasks)
+};

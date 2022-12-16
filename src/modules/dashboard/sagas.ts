@@ -1,17 +1,18 @@
 import { actionTypes } from './reducer';
 import { take, takeEvery, takeLatest, put, all, delay, call, fork } from 'redux-saga/effects';
-import { getTaskStart, getTaskSuccess, getTaskError } from './reducer';
-import { taskLogApi } from './api';
+import { getTasksStart, getTasksSuccess, getTasksError } from './reducer';
+import { tasksLogApi } from './api';
 
 export function* getTaskStartAsync(): any {
     try {
-        const response = yield call(taskLogApi); 
+        const response = yield call(tasksLogApi); 
+        console.log(response)
         if (response.status === 200) {
             yield delay(500);
-            yield put(getTaskSuccess(response.data))
+            yield put(getTasksSuccess(response))
         }
     } catch (err: any) {
-        yield put(getTaskError(err.response.data));
+        yield put(getTasksError(err.response));
     }
 }
 
@@ -24,16 +25,4 @@ const taskLogSagas = [fork(loadTaskLog)];
 export default function* dashboardSagaS() {
     yield all([...taskLogSagas])
 }
-// import { actionTypes } from './reducer';
 
-// function* taskSaga(data) {
-//     try {
-//         const response = yield call(); 
-//         if (response.status === 200) {
-//             yield delay(500);
-//             yield put()
-//         }
-//     } catch (err) {
-//         console.log('Errror ', err);
-//     }
-// }
