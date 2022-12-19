@@ -1,7 +1,15 @@
 import { actionTypes } from './reducer';
 import { take, takeEvery, takeLatest, put, all, delay, call, fork } from 'redux-saga/effects';
-import { getTasksStart, getTasksSuccess, getTasksError } from './reducer';
-import { tasksLogApi } from './api';
+import {
+    getTasksStart,
+    getTasksSuccess,
+    getTasksError,
+    createTaskSuccess,
+    createTaskError,
+    deleteTaskSuccess,
+    deleteTaskError,
+} from './reducer';
+import { tasksLogApi, createTaskLogApi, deleteTaskLogApi } from './api';
 
 export function* getTaskStartAsync(): any {
     try {
@@ -14,13 +22,46 @@ export function* getTaskStartAsync(): any {
     } catch (err: any) {
         yield put(getTasksError(err.response));
     }
+} 
+
+export function* createTaskStartAsync({payload}: any): any {
+    try {
+        const response = yield call(createTaskLogApi, payload); 
+        console.log(response)
+        if (response.status === 200) {
+            yield put(createTaskSuccess())
+        }
+    } catch (err: any) {
+        yield put(createTaskError(err.response));
+    }
 }
 
 export function* loadTaskLog() {
     yield takeEvery(actionTypes.GET_TASK_START, getTaskStartAsync);
 }
 
-const taskLogSagas = [fork(loadTaskLog)];
+export function* createTaskLog() {
+    yield takeLatest(actionTypes.CREATE_TASK_START, createTaskStartAsync);
+}
+
+function* deleteTaskLogAsync(taskLogId: number): any {
+    try {
+        const response = yield call(deleteTaskLogApi, taskLogId); 
+        if (response.status === 200) {
+            yield put(deleteTaskSuccess(response.data))
+        }
+    } catch (err: any) {
+        yield put(createTaskError(err.response));
+    }
+}
+
+function* deleteTaskLog() {
+    while(true) {
+        const {payload: taskLogId} = yield take(actionTypes.DELETE_TASK_START);
+        yield call(deleteTaskLogAsync, taskLogId)
+    }
+}
+const taskLogSagas = [fork(loadTaskLog), fork(createTaskLog)];
 
 export default function* dashboardSagaS() {
     yield all([...taskLogSagas])

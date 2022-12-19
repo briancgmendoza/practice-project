@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Moment from 'react-moment';
 import '../../styles/_dashboard.scss';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasksStart } from './reducer';
+import { getTasksStart, deleteTaskStart } from './reducer';
 import { taskLogState } from './interface';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,24 +13,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
-}
-
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
-
 export default function DashboardTable() {
   
 const dispatch = useDispatch();
@@ -39,6 +21,12 @@ const taskLog = useSelector((state: taskLogState) => state.dashboard);
 useEffect(() => {
   dispatch(getTasksStart());
 }, []);
+
+const handleDelete = (id: any) => {
+  if(window.confirm('Are you sure you want to delete this log?'))
+    dispatch(deleteTaskStart(id));
+    alert("Deleted successfully")
+}
 
   return (
     <TableContainer component={Paper}>
@@ -52,7 +40,7 @@ useEffect(() => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {taskLog.map((logItem: any) => (
+          {/* {taskLog.map((logItem: any) => (
             <TableRow
               key={logItem.id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -64,7 +52,7 @@ useEffect(() => {
               <TableCell align="right">{logItem.task_today}</TableCell>
               <TableCell align="right">{logItem.blockers}</TableCell>
             </TableRow>
-          ))}
+          ))} */}
         </TableBody>
       </Table>
     </TableContainer>

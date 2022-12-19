@@ -14,7 +14,9 @@ const header = () => {
     // } = profile;
 
   return (
-    <div>header</div>
+    <div className="buttons has-text-right">
+      <button className="button is-info">Logout</button>
+    </div>
   )
 }
 
