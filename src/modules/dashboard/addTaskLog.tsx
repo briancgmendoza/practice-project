@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasksStart } from './reducer';
+import { getTasksStart, createTaskStart } from './reducer';
 import { taskLogState } from './interface';
 import Button from '@mui/material/Button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const initialState = {
   task_yesterday: "",
@@ -14,18 +14,27 @@ const initialState = {
 const AddTaskLog = () => {
 
   const [taskLogValue, setTaskLogValue] = useState(initialState);
+  const { taskLog } = useSelector((state : any) => state.dashboard)
   const { task_yesterday, task_today, blockers } = taskLogValue;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleSubmit = () => {}
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    if(task_yesterday && task_today || blockers) {
+      dispatch(createTaskStart(taskLogValue))
+      setTimeout(() => navigate('/'), 500);
+    }
+  }
 
   const handleInputChange = (e: any) => {
-    let { name, value } = e.target;
-    setTaskLogValue({ ...taskLogValue, [task_yesterday]: value})
+    let { task_yesterday, value } = e.target;
+    setTaskLogValue({ ...taskLogValue, [task_yesterday]: value});
   }
 
   return (
     <div>
-      <form className="form" onSubmit={handleSubmit}>
+      <form className="" onSubmit={handleSubmit}>
         <legend>Add tasks Log</legend>
         <div className="field">
             <label className="label">Completed Task Yesterday</label>
@@ -44,7 +53,7 @@ const AddTaskLog = () => {
           <div className="field">
             <label className="label">Blockeres</label>
             <div className="control">
-              <input className="input" type="email" placeholder="Blockers" value={task_yesterday} onChange={handleInputChange} />
+              <input className="input" type="text" placeholder="Blockers" value={task_yesterday} onChange={handleInputChange} />
             </div>
           </div>
 

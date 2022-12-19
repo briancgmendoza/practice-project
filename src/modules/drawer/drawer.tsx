@@ -26,6 +26,8 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import Fab from '@mui/material/Fab';
 import Header from '../header/header';
 import DashboardTable from '../dashboard/dashboard-table';
+import AddTaskLog from '../dashboard/addTaskLog';
+import { END } from 'redux-saga';
 
 const drawerWidth = 240;
 
@@ -97,10 +99,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-
 export default function MiniDrawer() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openAddWindow, setOpenAddWindow] = React.useState(false);
 
   return (
     <>
@@ -118,7 +120,9 @@ export default function MiniDrawer() {
                 </Fab>
               </Box>
             </IconButton>
-            <Header/>
+            <div style={{justifyContent: 'end'}}>
+              <Header/>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
@@ -129,7 +133,7 @@ export default function MiniDrawer() {
           <List style={{zIndex: 1}}>
             {['dashboard', 'orders', 'sla leadtime', 'my task', 'users', 'reports', 'configuration', 'tools'].map((text, index) => (
               <Link to={`/${text}`}>
-              <ListItem key={text} disablePadding sx={{ display: 'block', textTransform: 'capitalize' }}>
+              <ListItem key={index} disablePadding sx={{ display: 'block', textTransform: 'capitalize' }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -142,6 +146,7 @@ export default function MiniDrawer() {
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
+                      key: {index},
                     }}
                   >
                     {
@@ -156,7 +161,7 @@ export default function MiniDrawer() {
                       <MailIcon /> 
                     }
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0, textColor: 'yellow' }} />
+                  <ListItemText primary={text} key={index} sx={{ opacity: open ? 1 : 0, textColor: 'yellow' }} />
                 </ListItemButton>
               </ListItem>
               </Link>
@@ -165,7 +170,9 @@ export default function MiniDrawer() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3}}>
           <DrawerHeader />
-          <DashboardTable />
+          {openAddWindow ? 
+          <DashboardTable /> : <AddTaskLog />
+          }
         </Box>
       </Box>
     </>

@@ -74,8 +74,8 @@ export function Login() {
                           Shop
                         </h1>
                         <div className="email-disclaimer">
-                          <span>Please login using your </span>
-                          <strong>registered work e-mail</strong>
+                          <span>Please login using your <strong>registered work e-mail</strong>
+                          </span>
                           <span>
                             <Tooltip title={system.LOGIN_EMAIL_DISCLAIMER}>
                               <IconButton aria-label="info-email-disclaimer">
