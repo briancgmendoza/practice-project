@@ -13,10 +13,10 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
-export default function DashboardTable() {
+export default function DashboardTable(props: any) {
   
 const dispatch = useDispatch();
-const taskLog = useSelector((state: taskLogState) => state.dashboard);
+const tasksLog = useSelector((state: taskLogState) => state.taskLog);
 
 useEffect(() => {
   dispatch(getTasksStart());
@@ -29,6 +29,7 @@ const handleDelete = (id: any) => {
 }
 
   return (
+    <>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
@@ -40,21 +41,24 @@ const handleDelete = (id: any) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {/* {taskLog.map((logItem: any) => (
+        {Object.keys(tasksLog).map((logItem: any, index: number) => (
             <TableRow
-              key={logItem.id}
+              key={index}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell component="th" scope="row">
+              
+              <TableCell>{index+1}</TableCell>
+              {/* <TableCell component="th" scope="row">
                 {logItem.date}
-              </TableCell>
+              </TableCell> */}
               <TableCell align="right">{logItem.task_yesterday}</TableCell>
               <TableCell align="right">{logItem.task_today}</TableCell>
               <TableCell align="right">{logItem.blockers}</TableCell>
             </TableRow>
-          ))} */}
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
+    </>
   );
 }

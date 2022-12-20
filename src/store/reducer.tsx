@@ -4,7 +4,7 @@ import dashboardReducer from '../modules/dashboard/reducer'
 
 export const rootReducer = combineReducers({
   login: loginReducer,
-  dashboard: dashboardReducer,
+  taskLog: dashboardReducer,
 });
 
 export type ApplicationState = ReturnType<typeof rootReducer>;
