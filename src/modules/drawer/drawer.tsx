@@ -99,11 +99,12 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-export default function MiniDrawer() {
+export default function MiniDrawer(props: any) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [openAddWindow, setOpenAddWindow] = React.useState(false);
+  const [openAddWindow, setOpenAddWindow] = React.useState(props);
 
+  console.log(openAddWindow);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
@@ -170,9 +171,8 @@ export default function MiniDrawer() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3}}>
           <DrawerHeader />
-          {openAddWindow ? 
-          <DashboardTable /> : <AddTaskLog />
-          }
+          <AddTaskLog />
+          <DashboardTable />
         </Box>
       </Box>
     </>

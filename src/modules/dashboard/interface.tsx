@@ -1,7 +1,11 @@
-export interface taskLogState {
-    [x: string]: any;dashboard:
+export interface taskLogState { taskLog:
     [
-    taskLog: never,
-    loading: boolean
+    tasksLog: {
+        task_yesterday: string,
+        task_today: string,
+        blockers: string,
+        id: number
+    },
+    loading: boolean,
     ]
 }

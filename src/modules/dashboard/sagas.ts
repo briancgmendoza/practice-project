@@ -17,17 +17,20 @@ export function* getTaskStartAsync(): any {
         console.log(response)
         if (response.status === 200) {
             yield delay(500);
-            yield put(getTasksSuccess(response))
+            yield put(getTasksSuccess(newFunction(response)))
         }
     } catch (err: any) {
         yield put(getTasksError(err.response));
     }
 } 
 
+function newFunction(response: any): any {
+    return { tasksLog: response.data };
+}
+
 export function* createTaskStartAsync({payload}: any): any {
     try {
-        const response = yield call(createTaskLogApi, payload); 
-        console.log(response)
+        const response = yield call(createTaskLogApi, payload);
         if (response.status === 200) {
             yield put(createTaskSuccess())
         }

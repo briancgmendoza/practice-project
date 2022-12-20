@@ -15,7 +15,7 @@ export const actionTypes =  {
 };
 
 const initialState = {
-    taskLog: <any>[],
+    tasksLog: <any>[],
     loading: false
 } as unknown as taskLogState;
 
@@ -83,7 +83,7 @@ const dashboardReducer = ( state = initialState, action: any ) => {
         case actionTypes.DELETE_TASK_SUCCESS:
             return {
                 ...state,
-                display: state.taskLogId.filter((item: any) => item.id !== action.payload),
+                display: state.taskLog.filter((item: any) => item.id !== action.payload),
             }
         case actionTypes.GET_TASK_ERROR:
         case actionTypes.CREATE_TASK_ERROR:

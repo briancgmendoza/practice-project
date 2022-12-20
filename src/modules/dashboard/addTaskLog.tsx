@@ -14,7 +14,7 @@ const initialState = {
 const AddTaskLog = () => {
 
   const [taskLogValue, setTaskLogValue] = useState(initialState);
-  const { taskLog } = useSelector((state : any) => state.dashboard)
+  const { tasksLog } = useSelector((state : any) => state.taskLog)
   const { task_yesterday, task_today, blockers } = taskLogValue;
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -28,12 +28,15 @@ const AddTaskLog = () => {
   }
 
   const handleInputChange = (e: any) => {
-    let { task_yesterday, value } = e.target;
-    setTaskLogValue({ ...taskLogValue, [task_yesterday]: value});
+    e.preventDefault();
+    setTaskLogValue({ ...taskLogValue, [task_yesterday]: e.target.value});
   }
+
+  const [openAddWindow, setOpenAddWindow] = useState(false);
 
   return (
     <div>
+      { openAddWindow ? 
       <form className="" onSubmit={handleSubmit}>
         <legend>Add tasks Log</legend>
         <div className="field">
@@ -59,13 +62,15 @@ const AddTaskLog = () => {
 
           <div className="field is-grouped">
             <div className="control">
-              <button className="button is-link">Add</button>
+              <button type="submit"className="button is-link">Add</button>
             </div>
             <div className="control">
-              <button className="button is-link is-light" ><Link to="/dashboard">Go Back</Link></button>
+              <button type="button" className="button is-link is-light" onClick={()=>setOpenAddWindow(!openAddWindow)}>Cancel</button>
             </div>
           </div>
         </form>
+        : <button type="button" className="button is-link" onClick={()=>setOpenAddWindow(!openAddWindow)} >Add task log</button>
+        }
     </div>
   )
 }
