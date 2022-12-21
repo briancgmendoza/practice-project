@@ -27,7 +27,7 @@ const handleDelete = (id: any) => {
     dispatch(deleteTaskStart(id));
     alert("Deleted successfully")
 }
-
+console.log(tasksLog);
   return (
     <>
     <TableContainer component={Paper}>

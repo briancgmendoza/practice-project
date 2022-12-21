@@ -13,20 +13,15 @@ import { tasksLogApi, createTaskLogApi, deleteTaskLogApi } from './api';
 
 export function* getTaskStartAsync(): any {
     try {
-        const response = yield call(tasksLogApi); 
-        console.log(response)
+        const response = yield call(tasksLogApi);
         if (response.status === 200) {
             yield delay(500);
-            yield put(getTasksSuccess(newFunction(response)))
+            yield put(getTasksStart())
         }
     } catch (err: any) {
         yield put(getTasksError(err.response));
     }
 } 
-
-function newFunction(response: any): any {
-    return { tasksLog: response.data };
-}
 
 export function* createTaskStartAsync({payload}: any): any {
     try {
