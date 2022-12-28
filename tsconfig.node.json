@@ -6,6 +6,6 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-    "vite.config.cjs"
+    "vite.config.cjs",
   ]
 }

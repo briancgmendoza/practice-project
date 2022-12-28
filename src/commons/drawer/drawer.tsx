@@ -24,7 +24,10 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import BuildIcon from '@mui/icons-material/Build';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import Fab from '@mui/material/Fab';
-import Header from '../header/header'
+import Header from '../header/header';
+import DashboardTable from '../../modules/dashboard/dashboard-table';
+import AddTaskLog from '../../modules/dashboard/addTaskLog';
+import { END } from 'redux-saga';
 
 const drawerWidth = 240;
 
@@ -96,10 +99,10 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
     }),
   }),
 );
-
-export default function MiniDrawer() {
+export default function MiniDrawer(props: any) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [openAddWindow, setOpenAddWindow] = React.useState(props);
 
   return (
     <>
@@ -107,28 +110,30 @@ export default function MiniDrawer() {
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar>
-            { !open ? <img src="images/favicon.png" style={{ width: '40px'}} />
+            { !open ? <img src="images/favicon.png" style={{ width: '40px' }} />
               : ''
             }
             <IconButton onClick={() => setOpen(!open)}>
               <Box sx={{ '& > :not(style)': { m: 1 } }}>
                 <Fab disabled aria-label="like">
-                  { open ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+                  { open ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </Fab>
               </Box>
             </IconButton>
-            <Header/>
+            <div style={{justifyContent: 'end'}}>
+              <Header/>
+            </div>
           </Toolbar>
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-              <img src="https://rec-data.kalibrr.com/logos/LDC3AY6PVYPWEJD4SMTGGC63GX96WNTQMGSHWJBX-5bad80fb.png" style={{ width: 150, height: 50, margin: 'auto', display: 'flex'}}/>
+              <img src="https://rec-data.kalibrr.com/logos/LDC3AY6PVYPWEJD4SMTGGC63GX96WNTQMGSHWJBX-5bad80fb.png" style={{ width: 150, height: 87, margin: 'auto', display: 'flex'}}/>
           </DrawerHeader>
           <Divider />
           <List style={{zIndex: 1}}>
             {['dashboard', 'orders', 'sla leadtime', 'my task', 'users', 'reports', 'configuration', 'tools'].map((text, index) => (
-              <Link to={`/${text}`}>
-              <ListItem key={text} disablePadding sx={{ display: 'block', textTransform: 'capitalize' }}>
+              <Link to={`/${text}`} key={index}>
+              <ListItem disablePadding sx={{ display: 'block', textTransform: 'capitalize' }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,
@@ -141,6 +146,7 @@ export default function MiniDrawer() {
                       minWidth: 0,
                       mr: open ? 3 : 'auto',
                       justifyContent: 'center',
+                      key: {index},
                     }}
                   >
                     {
@@ -155,7 +161,7 @@ export default function MiniDrawer() {
                       <MailIcon /> 
                     }
                   </ListItemIcon>
-                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0, textColor: 'yellow' }} />
+                  <ListItemText primary={text} key={index} sx={{ opacity: open ? 1 : 0, textColor: 'yellow' }} />
                 </ListItemButton>
               </ListItem>
               </Link>
@@ -164,6 +170,8 @@ export default function MiniDrawer() {
         </Drawer>
         <Box component="main" sx={{ flexGrow: 1, p: 3}}>
           <DrawerHeader />
+          <AddTaskLog />
+          <DashboardTable />
         </Box>
       </Box>
     </>

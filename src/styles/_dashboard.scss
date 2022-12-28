@@ -1,0 +1,22 @@
+.welcome-dashboard {
+    text-align: center;
+}
+.container {
+    background-color: antiquewhite;
+    padding: 20px;
+    width: 500px;
+    justify-content: center;
+    margin: auto;
+    .form {
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        textarea {
+            min-width: 450px;
+            min-height: 20px;
+        }
+        .submitBtn {
+            width: 100px;
+        }
+    }
+}

@@ -52,13 +52,16 @@ $secondaryColor: rgb(244, 142, 10);
 
     .entrego-logo {
       width: 25vw;
-      height: 100px
+      height: 100px;
     }
 
     .email-disclaimer {
       color: $secondaryColor;
       font-size: large;
       line-height: 8;
+      strong {
+        color: $secondaryColor;
+      }
     }
 
     .google-login-button {

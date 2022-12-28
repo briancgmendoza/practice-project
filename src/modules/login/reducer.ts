@@ -35,7 +35,7 @@ const initialState: AuthState = {
     isLoading: false,
 };
 
-const reducer = ( state = initialState, action: any ) => {
+const loginReducer = ( state = initialState, action: any ) => {
     switch (action.type) {
         case actionTypes.LOGIN_REQUEST:
         case actionTypes.GOOGLE_LOGIN_REQUEST:
@@ -67,4 +67,4 @@ const reducer = ( state = initialState, action: any ) => {
     }
 };
 
-export default reducer;
+export default loginReducer;
