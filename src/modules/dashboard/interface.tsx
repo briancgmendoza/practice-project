@@ -1,11 +1,10 @@
-export interface taskLogState { taskLog:
-    [
-    tasksLog: {
-        task_yesterday: string,
-        task_today: string,
-        blockers: string,
+export interface TasksState {
+    isLoading: boolean,
+    tasks: {
+        task_yesterday: string;
+        task_today: string;
+        blocker: string;
         id: number
-    },
-    loading: boolean,
-    ]
+    }
+    actionTypes: string,
 }

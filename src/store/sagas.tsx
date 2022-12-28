@@ -5,6 +5,6 @@ import dashboardSagas from '../modules/dashboard/sagas';
 export default function* rootSaga() {
   yield all([
     ...loginSagas,
-    ...dashboardSagas()
+    ...dashboardSagas
   ]);
 }

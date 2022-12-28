@@ -1,17 +1,15 @@
-import React, { useState } from 'react';
-import MiniDrawer from '../drawer/drawer';
-import DashboardTable from './dashboard-table';
-import { Link } from 'react-router-dom'
-import AddTaskLog from './addTaskLog';
+import React, { useState, useEffect } from 'react';
+import MiniDrawer from '../../commons/drawer/drawer';
+import {useSelector} from "react-redux";
+import {ApplicationState} from "../../store/reducer";
+import {Loading} from "../../commons/loading/loading";
+
 
 export function Dashboard() {
-
-  // const [openAddWindow, setOpenAddWindow] = React.useState(false);
-
+  const isLoading = useSelector((state: ApplicationState) => state.dashboard.isLoading)
   return (
     <>
-    <MiniDrawer />
-    <div data-testid="dashboard-title" className="dashboard-welcome">Welcome to Dashboard</div>
+      {isLoading ? <Loading /> : <MiniDrawer />}
     </>
   )
 }

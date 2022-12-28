@@ -1,67 +1,23 @@
 import { actionTypes } from './reducer';
-import { take, takeEvery, takeLatest, put, all, delay, call, fork } from 'redux-saga/effects';
-import {
-    getTasksStart,
-    getTasksSuccess,
-    getTasksError,
-    createTaskSuccess,
-    createTaskError,
-    deleteTaskSuccess,
-    deleteTaskError,
-} from './reducer';
-import { tasksLogApi, createTaskLogApi, deleteTaskLogApi } from './api';
+import { all, call, takeLatest, put, delay } from 'redux-saga/effects';
+import { getAllDataRequest } from './api';
+import axios from 'axios';
 
-export function* getTaskStartAsync(): any {
+function* getTaskStartAsync(): Generator<any> {
     try {
-        const response = yield call(tasksLogApi);
-        if (response.status === 200) {
-            yield delay(500);
-            yield put(getTasksStart())
-        }
+        const response: any = yield call(getAllDataRequest);
+        const { data } = response
+        yield put({ type: actionTypes.GET_TASK_SUCCESS, data })
     } catch (err: any) {
-        yield put(getTasksError(err.response));
-    }
-} 
-
-export function* createTaskStartAsync({payload}: any): any {
-    try {
-        const response = yield call(createTaskLogApi, payload);
-        if (response.status === 200) {
-            yield put(createTaskSuccess())
-        }
-    } catch (err: any) {
-        yield put(createTaskError(err.response));
+        yield put({ type: actionTypes.GET_TASK_FAILED, err });
     }
 }
 
-export function* loadTaskLog() {
-    yield takeEvery(actionTypes.GET_TASK_START, getTaskStartAsync);
+function* watchAuthRequests() {
+    yield all([
+        takeLatest(actionTypes.GET_TASK_REQUEST, getTaskStartAsync),
+    ]);
 }
 
-export function* createTaskLog() {
-    yield takeLatest(actionTypes.CREATE_TASK_START, createTaskStartAsync);
-}
-
-function* deleteTaskLogAsync(taskLogId: number): any {
-    try {
-        const response = yield call(deleteTaskLogApi, taskLogId); 
-        if (response.status === 200) {
-            yield put(deleteTaskSuccess(response.data))
-        }
-    } catch (err: any) {
-        yield put(createTaskError(err.response));
-    }
-}
-
-function* deleteTaskLog() {
-    while(true) {
-        const {payload: taskLogId} = yield take(actionTypes.DELETE_TASK_START);
-        yield call(deleteTaskLogAsync, taskLogId)
-    }
-}
-const taskLogSagas = [fork(loadTaskLog), fork(createTaskLog)];
-
-export default function* dashboardSagaS() {
-    yield all([...taskLogSagas])
-}
+export default [watchAuthRequests()];
 

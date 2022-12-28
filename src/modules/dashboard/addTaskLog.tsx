@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasksStart, createTaskStart } from './reducer';
-import { taskLogState } from './interface';
+// import { getTasksStart, createTaskStart } from './reducer';
+import { TasksState } from './interface';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ const AddTaskLog = () => {
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if(taskLogValue.task_yesterday && taskLogValue.task_today || taskLogValue.blockers) {
-      dispatch(createTaskStart(taskLogValue))
+      // dispatch(createTaskStart(taskLogValue))
       setTimeout(() => navigate('/'), 500);
     }
   }
@@ -35,7 +35,7 @@ const AddTaskLog = () => {
   const [openAddWindow, setOpenAddWindow] = useState(false);
 
   return (
-    <div>
+    <div style={{ padding: '10px' }}>
       { openAddWindow ? 
       <form className="" onSubmit={handleSubmit}>
         <legend>Add tasks Log</legend>

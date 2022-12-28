@@ -11,11 +11,6 @@ export const getRefreshToken = () =>
   window.localStorage.getItem('entregoTKNRefresh');
 
 export const deleteToken = () => {
-  return window.localStorage.clear();
-  // return window.localStorage.removeItem("entregoTKN");
-};
-
-export const backToLoginPage = () => {
-  deleteToken();
   window.location.href = '/';
+  return window.localStorage.clear();
 };
