@@ -1,100 +1,79 @@
-import { taskLogState } from './interface';
-
+import { Reducer } from 'redux';
+import { TasksState } from './interface';
 export const actionTypes =  {
-    GET_TASK_START: 'GET_TASK_START',
-    GET_TASK_SUCCESS: 'GET_TODAY_SUCCESS',
-    GET_TASK_ERROR: 'GET_TASK_ERROR',
+    GET_TASK_REQUEST: 'GET_TASK_REQUEST',
+    GET_TASK_SUCCESS: 'GET_TASK_SUCCESS',
+    GET_TASK_FAILED: 'GET_TASK_FAILED',
 
-    CREATE_TASK_START: 'CREATE_TASK_START',
+    CREATE_TASK_REQUEST: 'CREATE_TASK_REQUEST',
     CREATE_TASK_SUCCESS: 'CREATE_TASK_SUCCESS',
-    CREATE_TASK_ERROR: 'CREATE_TASK_ERROR',
+    CREATE_TASK_FAILED: 'CREATE_TASK_FAILED',
 
-    DELETE_TASK_START: 'DELETE_TASK_START',
-    DELETE_TASK_SUCCESS: 'DELETE_TASK_SUCCESS',
-    DELETE_TASK_ERROR: 'DELETE_TASK_ERROR',
+    RESET_ACTION: 'RESET_ACTION'
 };
 
-const initialState = {
-    tasksLog: <any>[],
-    loading: false
-} as unknown as taskLogState;
+export const actionCreators = {
+    getTask: () => ({
+        type: actionTypes.GET_TASK_REQUEST,
+    }),
+    resetAction: () => ({
+        type: actionTypes.RESET_ACTION
+    }),
+    createTask: (taskLog: any) => ({
+        type: actionTypes.CREATE_TASK_REQUEST,
+        payload: taskLog
+    })
+}
 
-export const getTasksStart = () => ({
-    type: actionTypes.GET_TASK_START,
-});
+const initialState: TasksState = {
+    actionTypes: '',
+    isLoading: false,
+    tasks: {
+        task_yesterday: 'InitialState_yesterday',
+        task_today: 'InitialState_today',
+        blocker: 'InitialState_blocker',
+        id: 0
+    }
+}
 
-export const getTasksSuccess = (taskLog: string) => ({
-    type: actionTypes.GET_TASK_SUCCESS,
-    payload: taskLog,
-});
+const dashboardReducer: Reducer<TasksState> = ( state = initialState, action ) => {
+    switch (action.type) {
+        case actionTypes.GET_TASK_REQUEST:
+        case actionTypes.CREATE_TASK_REQUEST:
+            return { ...state, isLoading: true };
 
-export const getTasksError = (error: string) => ({
-    type: actionTypes.GET_TASK_ERROR,
-    payload: error,
-});
-
-export const createTaskStart = (taskLog: any) => ({
-    type: actionTypes.CREATE_TASK_START,
-    payload: taskLog
-});
-
-export const createTaskSuccess = () => ({
-    type: actionTypes.CREATE_TASK_SUCCESS,
-});
-
-export const createTaskError = (error: string) => ({
-    type: actionTypes.CREATE_TASK_ERROR,
-    payload: error,
-});
-
-export const deleteTaskStart = (taskLogId: string) => ({
-    type: actionTypes.DELETE_TASK_START,
-    payload: taskLogId
-});
-
-export const deleteTaskSuccess = (taskLogId: string) => ({
-    type: actionTypes.DELETE_TASK_SUCCESS,
-    payload: taskLogId
-});
-
-export const deleteTaskError = (error: string) => ({
-    type: actionTypes.DELETE_TASK_ERROR,
-    payload: error,
-});
-
-const dashboardReducer = ( state = initialState, action: any ) => {
-    switch (action) {
-        case actionTypes.GET_TASK_START:
-        case actionTypes.CREATE_TASK_START:
-        case actionTypes.DELETE_TASK_START:
-            return {
-                ...state,
-                display: action.payload
-            }
         case actionTypes.GET_TASK_SUCCESS:
             return {
                 ...state,
-                display: action.payload
+                tasks: action.data,
+                isLoading: false,
+                actionTypes: action.type,
             };
+        
         case actionTypes.CREATE_TASK_SUCCESS:
             return {
-                ...state,
+                ...state
             }
-        case actionTypes.DELETE_TASK_SUCCESS:
+            
+        case actionTypes.GET_TASK_FAILED:
+        case actionTypes.CREATE_TASK_FAILED:
             return {
                 ...state,
-                display: state.taskLog.filter((item: any) => item.id !== action.payload),
-            }
-        case actionTypes.GET_TASK_ERROR:
-        case actionTypes.CREATE_TASK_ERROR:
-        case actionTypes.DELETE_TASK_ERROR:
-            return {
-                ...state,
-                display: action.payload
+                error: action.err,
+                isLoading: false,
             };
+
+        case actionTypes.RESET_ACTION:
+            return {
+                ...state,
+                isLoading: false,
+                actionTypes: ''
+            }
+
         default:
             return state;
     };
 };
+console.log('@reducer, ', actionCreators.getTask);
 
 export default dashboardReducer;

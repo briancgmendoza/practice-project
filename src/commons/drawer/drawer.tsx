@@ -24,9 +24,9 @@ import FileCopyIcon from '@mui/icons-material/FileCopy';
 import BuildIcon from '@mui/icons-material/Build';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import Fab from '@mui/material/Fab';
-import Header from '../../commons/header/header';
-import DashboardTable from '../dashboard/dashboard-table';
-import AddTaskLog from '../dashboard/addTaskLog';
+import Header from '../header/header';
+import DashboardTable from '../../modules/dashboard/dashboard-table';
+import AddTaskLog from '../../modules/dashboard/addTaskLog';
 import { END } from 'redux-saga';
 
 const drawerWidth = 240;
@@ -104,14 +104,13 @@ export default function MiniDrawer(props: any) {
   const [open, setOpen] = React.useState(false);
   const [openAddWindow, setOpenAddWindow] = React.useState(props);
 
-  console.log(openAddWindow);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="fixed" open={open}>
           <Toolbar>
-            { !open ? <img src="images/favicon.png" style={{ width: '40px'}} />
+            { !open ? <img src="images/favicon.png" style={{ width: '40px' }} />
               : ''
             }
             <IconButton onClick={() => setOpen(!open)}>
@@ -128,13 +127,13 @@ export default function MiniDrawer(props: any) {
         </AppBar>
         <Drawer variant="permanent" open={open}>
           <DrawerHeader>
-              <img src="https://rec-data.kalibrr.com/logos/LDC3AY6PVYPWEJD4SMTGGC63GX96WNTQMGSHWJBX-5bad80fb.png" style={{ width: 150, height: 50, margin: 'auto', display: 'flex'}}/>
+              <img src="https://rec-data.kalibrr.com/logos/LDC3AY6PVYPWEJD4SMTGGC63GX96WNTQMGSHWJBX-5bad80fb.png" style={{ width: 150, height: 87, margin: 'auto', display: 'flex'}}/>
           </DrawerHeader>
           <Divider />
           <List style={{zIndex: 1}}>
             {['dashboard', 'orders', 'sla leadtime', 'my task', 'users', 'reports', 'configuration', 'tools'].map((text, index) => (
-              <Link to={`/${text}`}>
-              <ListItem key={index} disablePadding sx={{ display: 'block', textTransform: 'capitalize' }}>
+              <Link to={`/${text}`} key={index}>
+              <ListItem disablePadding sx={{ display: 'block', textTransform: 'capitalize' }}>
                 <ListItemButton
                   sx={{
                     minHeight: 48,

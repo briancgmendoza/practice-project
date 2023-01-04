@@ -1,28 +1,45 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getTasksStart, createTaskStart } from './reducer';
-import { taskLogState } from './interface';
+import { actionCreators as dashboardAction } from "./reducer";
+import { ApplicationState } from "../../store/reducer";
+// import { getTasksStart, createTaskStart } from './reducer';
+import { TasksState } from './interface';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
-const AddTaskLog = () => {
-
-  const [taskLogValue, setTaskLogValue] = useState({ 
+const initialState = 
+  { 
     task_yesterday: "",
     task_today: "",
-    blockers: ""
-  });
+    blockers: "",
+    id: 0
+  }
 
-  const navigate = useNavigate();
+const AddTaskLog = () => {
+
+  const [taskLogValue, setTaskLogValue] = useState(initialState);
+  const { taskLog } = useSelector((state: ApplicationState) => state.dashboard.tasks)
   const dispatch = useDispatch();
 
+  console.log('taskLog: ', taskLogValue);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if(taskLogValue.task_yesterday && taskLogValue.task_today || taskLogValue.blockers) {
-      dispatch(createTaskStart(taskLogValue))
-      setTimeout(() => navigate('/'), 500);
+      dispatch(dashboardAction.createTask(taskLogValue));
+      const { task_yesterday, task_today, blockers, id } = taskLogValue
+      setTaskLogValue(
+        {
+          "task_yesterday": task_yesterday,
+          "task_today": task_today,
+          "blockers": blockers,
+          "id": id
+        }
+      )
+      // setTimeout(() => navigate('/'), 500);
     }
   }
+
+  console.log('taskLog: ', taskLog);
 
   const handleInputChange = (e: any) => {
     e.preventDefault();
@@ -35,28 +52,28 @@ const AddTaskLog = () => {
   const [openAddWindow, setOpenAddWindow] = useState(false);
 
   return (
-    <div>
+    <div style={{ padding: '10px' }}>
       { openAddWindow ? 
       <form className="" onSubmit={handleSubmit}>
         <legend>Add tasks Log</legend>
         <div className="field">
             <label className="label">Completed Task Yesterday</label>
             <div className="control">
-              <input className="input" type="text" placeholder="What you did yesterday?" defaultValue={taskLogValue.task_yesterday || ''} onChange={handleInputChange} />
+              <input className="input" type="text" placeholder="What you did yesterday?" defaultValue={taskLogValue.task_yesterday} onChange={handleInputChange} />
             </div>
           </div>
 
           <div className="field">
             <label className="label">Your Task Today</label>
             <div className="control">
-              <input className="input" type="text" placeholder="What is your plan today?" defaultValue={taskLogValue.task_today || ''} onChange={handleInputChange} />
+              <input className="input" type="text" placeholder="What is your plan today?" defaultValue={taskLogValue.task_today} onChange={handleInputChange} />
             </div>
           </div>
 
           <div className="field">
             <label className="label">Blockers</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Blockers" defaultValue={taskLogValue.task_yesterday || ''} onChange={handleInputChange} />
+              <input className="input" type="text" placeholder="Blockers" defaultValue={taskLogValue.blockers} onChange={handleInputChange} />
             </div>
           </div>
 
