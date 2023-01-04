@@ -104,7 +104,6 @@ export default function MiniDrawer(props: any) {
   const [open, setOpen] = React.useState(false);
   const [openAddWindow, setOpenAddWindow] = React.useState(props);
 
-  console.log(openAddWindow);
   return (
     <>
       <Box sx={{ display: 'flex' }}>
