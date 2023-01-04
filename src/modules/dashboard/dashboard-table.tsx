@@ -19,31 +19,34 @@ export default function DashboardTable() {
   const isLoading = useSelector((state: ApplicationState) => state.dashboard.isLoading);
   const tasksLog = useSelector((state: ApplicationState) => state.dashboard.tasks);
   const actionType = useSelector((state: ApplicationState) => state.dashboard.actionTypes)
-  const [tasks, setTasks] = useState([
-    {
-      "task_yesterday": 'No Data',
-      "task_today": 'No Data',
-      "blocker": 'No Data',
-      "id": 0
-    }
-  ]);
+  let index = 0;
+  console.log("$DISPATCH TABLE: ", index, tasksLog)
+  // const [tasks, setTasks] = useState([tasksLog]);
+  // const [tasks, setTasks] = useState([
+  //   {
+  //     "task_yesterday": 'No Data',
+  //     "task_today": 'No Data',
+  //     "blocker": 'No Data',
+  //     "id": 0
+  //   }
+  // ]);
 
   useEffect(() => {
     dispatch(dashboardAction.getTask())
-    if (Object.values(tasksLog) !== undefined || '') {
-      const { task_yesterday, task_today, blocker, id } = tasksLog
-      setTasks([
-        {
-          "task_yesterday": task_yesterday,
-          "task_today": task_today,
-          "blocker": blocker,
-          "id": id
-        }
-      ])
+    // if (Object.values([tasksLog]) !== undefined || '') {
+      // const { task_yesterday, task_today, blocker, id } = tasksLog
+      // setTasks([
+      //   {
+      //     "task_yesterday": task_yesterday,
+      //     "task_today": task_today,
+      //     "blocker": blocker,
+      //     "id": id
+      //   }
+      // ])
       console.log("DISPATCH TABLE: ", isLoading)
       console.log("DISPATCH TABLE: ", tasksLog)
       console.log("DISPATCH TABLE: ", actionType)
-    }
+    // }
     dispatch(dashboardAction.resetAction())
   }, [])
 
@@ -59,24 +62,24 @@ export default function DashboardTable() {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell align="right">Date</TableCell>
+                <TableCell align="right">No.</TableCell>
                 <TableCell align="right">Task Yesterday</TableCell>
                 <TableCell align="right">Task Today</TableCell>
                 <TableCell align="right">Blockers</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
-              {tasks.map((task, index) => {
+              {Object.keys(tasksLog).map((task: any) => {
                 return (
                     <TableRow
                         key={index}
                         sx={{'&:last-child td, &:last-child th': {border: 0}}}
                     >
-                      <TableCell>{task.id}</TableCell>
-                      {/*<TableCell component="th" scope="row">{logItem.date}</TableCell> */}
-                      <TableCell align="right">{task.task_yesterday}</TableCell>
-                      <TableCell align="right">{task.task_today}</TableCell>
-                      <TableCell align="right">{task.blocker}</TableCell>
+                      <TableCell>{tasksLog[task].id}</TableCell>
+                      {/* <TableCell component="th" scope="row">{logItem.date}</TableCell> */}
+                      <TableCell align="right">{tasksLog[task].task_yesterday}</TableCell>
+                      <TableCell align="right">{tasksLog[task].task_today}</TableCell>
+                      <TableCell align="right">{tasksLog[task].blocker}</TableCell>
                     </TableRow>
                 )
               })}

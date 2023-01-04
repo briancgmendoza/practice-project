@@ -1,10 +1,19 @@
 export interface TasksState {
     isLoading: boolean,
     tasks: {
-        task_yesterday: string;
-        task_today: string;
-        blocker: string;
+        [x: string]: any
+        task_yesterday: string,
+        task_today: string,
+        blocker: string,
         id: number
     }
     actionTypes: string,
 }
+
+// export type taskLog
+// export type taskLog = {
+//     task_yesterday: string;
+//     task_today: string;
+//     blocker: string;
+//     id: number
+// }

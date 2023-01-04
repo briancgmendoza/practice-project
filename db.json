@@ -5,6 +5,12 @@
       "task_yesterday": "practice code",
       "task_today": "continue practice",
       "blocker": "holidays"
+    },
+    {
+      "id": 2,
+      "task_yesterday": "practice code",
+      "task_today": "continue practice",
+      "blocker": "Adding data to json"
     }
   ]
 }
