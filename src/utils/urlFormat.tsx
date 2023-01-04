@@ -1,4 +1,4 @@
-export const format = (url, params) => {
+export const format = (url: any, params: any) => {
     if (Object.keys(params).length === 0) {
       return url;
     }
@@ -13,7 +13,7 @@ export const format = (url, params) => {
   
   export default format;
   
-  export const getDomain = (url, subdomain = false) => {
+  export const getDomain = (url: any, subdomain = false) => {
     let newUrl = url.replace(/(https?:\/\/)?(www.)?/i, '');
   
     if (!subdomain) {

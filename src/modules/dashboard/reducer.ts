@@ -52,7 +52,8 @@ const dashboardReducer: Reducer<TasksState> = ( state = initialState, action ) =
         
         case actionTypes.CREATE_TASK_SUCCESS:
             return {
-                ...state
+                ...state,
+                isLoading: false,
             }
             
         case actionTypes.GET_TASK_FAILED:

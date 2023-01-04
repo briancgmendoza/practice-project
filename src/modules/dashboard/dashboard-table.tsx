@@ -69,7 +69,7 @@ export default function DashboardTable() {
               </TableRow>
             </TableHead>
             <TableBody>
-              {Object.keys(tasksLog).map((task: any) => {
+              {Object.keys(tasksLog).map((task: any, index) => {
                 return (
                     <TableRow
                         key={index}

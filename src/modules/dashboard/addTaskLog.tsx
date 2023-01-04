@@ -7,45 +7,33 @@ import { TasksState } from './interface';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
 
-const initialState = 
-  { 
+const initialState =
+  {
     task_yesterday: "",
     task_today: "",
-    blockers: "",
-    id: 0
+    blocker: "",
   }
 
 const AddTaskLog = () => {
 
   const [taskLogValue, setTaskLogValue] = useState(initialState);
-  const { taskLog } = useSelector((state: ApplicationState) => state.dashboard.tasks)
+  const taskLog = useSelector((state: ApplicationState) => state.dashboard.tasks)
   const dispatch = useDispatch();
 
-  console.log('taskLog: ', taskLogValue);
+  // console.log('taskLog: ', taskLogValue);
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    if(taskLogValue.task_yesterday && taskLogValue.task_today || taskLogValue.blockers) {
-      dispatch(dashboardAction.createTask(taskLogValue));
-      const { task_yesterday, task_today, blockers, id } = taskLogValue
-      setTaskLogValue(
-        {
-          "task_yesterday": task_yesterday,
-          "task_today": task_today,
-          "blockers": blockers,
-          "id": id
-        }
-      )
+    if(taskLogValue.task_yesterday && taskLogValue.task_today || taskLogValue.blocker) {
+        dispatch(dashboardAction.createTask(taskLogValue));
       // setTimeout(() => navigate('/'), 500);
     }
   }
-
-  console.log('taskLog: ', taskLog);
 
   const handleInputChange = (e: any) => {
     e.preventDefault();
     setTaskLogValue({
       ...taskLogValue,
-      [e.target.task_yesterday]: e.target.value
+      [e.target.name]: e.target.value
     });
   }
 
@@ -59,21 +47,42 @@ const AddTaskLog = () => {
         <div className="field">
             <label className="label">Completed Task Yesterday</label>
             <div className="control">
-              <input className="input" type="text" placeholder="What you did yesterday?" defaultValue={taskLogValue.task_yesterday} onChange={handleInputChange} />
+              <input
+                  className="input"
+                  type="text"
+                  placeholder="What you did yesterday?"
+                  defaultValue={taskLogValue.task_yesterday}
+                  onChange={handleInputChange}
+                  name='task_yesterday'
+              />
             </div>
           </div>
 
           <div className="field">
             <label className="label">Your Task Today</label>
             <div className="control">
-              <input className="input" type="text" placeholder="What is your plan today?" defaultValue={taskLogValue.task_today} onChange={handleInputChange} />
+              <input
+                  className="input"
+                  type="text"
+                  placeholder="What is your plan today?"
+                  defaultValue={taskLogValue.task_today}
+                  onChange={handleInputChange}
+                  name='task_today'
+              />
             </div>
           </div>
 
           <div className="field">
             <label className="label">Blockers</label>
             <div className="control">
-              <input className="input" type="text" placeholder="Blockers" defaultValue={taskLogValue.blockers} onChange={handleInputChange} />
+              <input
+                  className="input"
+                  type="text"
+                  placeholder="Blockers"
+                  defaultValue={taskLogValue.blocker}
+                  onChange={handleInputChange}
+                  name='blocker'
+              />
             </div>
           </div>
 
