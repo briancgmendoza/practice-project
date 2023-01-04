@@ -2,7 +2,7 @@ import React from 'react'
 import { actionCreators as loginAction } from '../../modules/login/reducer'
 import { useDispatch } from "react-redux";
 
-const header = () => {
+const Header = () => {
     const dispatch = useDispatch();
   return (
     <div className="buttons has-text-right">
@@ -16,4 +16,4 @@ const header = () => {
   )
 }
 
-export default header
+export default Header
