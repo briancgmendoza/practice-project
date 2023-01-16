@@ -12,49 +12,32 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { ApplicationState } from "../../store/reducer";
-import { TasksState } from "./interface";
+import { TasksState, taskLog } from "./interface";
+import RemoveIcon from '@mui/icons-material/Remove';
+import EditIcon from '@mui/icons-material/Edit';
+import UpdateModal from './updateModal';
 
 export default function DashboardTable() {
   const dispatch = useDispatch();
-  const isLoading = useSelector((state: ApplicationState) => state.dashboard.isLoading);
   const tasksLog = useSelector((state: ApplicationState) => state.dashboard.tasks);
-  const actionType = useSelector((state: ApplicationState) => state.dashboard.actionTypes)
-  let index = 0;
-  console.log("$DISPATCH TABLE: ", index, tasksLog)
-  // const [tasks, setTasks] = useState([tasksLog]);
-  // const [tasks, setTasks] = useState([
-  //   {
-  //     "task_yesterday": 'No Data',
-  //     "task_today": 'No Data',
-  //     "blocker": 'No Data',
-  //     "id": 0
-  //   }
-  // ]);
 
   useEffect(() => {
     dispatch(dashboardAction.getTask())
-    // if (Object.values([tasksLog]) !== undefined || '') {
-      // const { task_yesterday, task_today, blocker, id } = tasksLog
-      // setTasks([
-      //   {
-      //     "task_yesterday": task_yesterday,
-      //     "task_today": task_today,
-      //     "blocker": blocker,
-      //     "id": id
-      //   }
-      // ])
-      console.log("DISPATCH TABLE: ", isLoading)
-      console.log("DISPATCH TABLE: ", tasksLog)
-      console.log("DISPATCH TABLE: ", actionType)
-    // }
     dispatch(dashboardAction.resetAction())
   }, [])
 
-// const handleDelete = (id: any) => {
-//   if(window.confirm('Are you sure you want to delete this log?'))
-//     dispatch(deleteTaskStart(id));
-//     alert("Deleted successfully")
-// }
+  const handleDelete = (id: undefined | number) => {
+    if(window.confirm('Are you sure you want to delete this log?')) {
+      dispatch(dashboardAction.deleteTask(id));
+    }
+  }
+
+  const [openUpdate, setOpenUpdate] = useState(false);
+
+  const handleSelectedTask = (id: undefined | number) => {
+    dispatch(dashboardAction.updateTask(id));
+    setOpenUpdate(true);
+  }
 
   return (
       <>
@@ -66,26 +49,47 @@ export default function DashboardTable() {
                 <TableCell align="right">Task Yesterday</TableCell>
                 <TableCell align="right">Task Today</TableCell>
                 <TableCell align="right">Blockers</TableCell>
+                <TableCell align="right">User Action</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {Object.keys(tasksLog).map((task: any, index) => {
                 return (
-                    <TableRow
-                        key={index}
-                        sx={{'&:last-child td, &:last-child th': {border: 0}}}
-                    >
-                      <TableCell>{tasksLog[task].id}</TableCell>
-                      {/* <TableCell component="th" scope="row">{logItem.date}</TableCell> */}
-                      <TableCell align="right">{tasksLog[task].task_yesterday}</TableCell>
-                      <TableCell align="right">{tasksLog[task].task_today}</TableCell>
-                      <TableCell align="right">{tasksLog[task].blocker}</TableCell>
-                    </TableRow>
+                  <TableRow
+                      key={index}
+                      sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                  >
+                    <TableCell>{tasksLog[task].id}</TableCell>
+                    {/* <TableCell component="th" scope="row">{logItem.date}</TableCell> */}
+                    <TableCell align="right">{tasksLog[task].task_yesterday}</TableCell>
+                    <TableCell align="right">{tasksLog[task].task_today}</TableCell>
+                    <TableCell align="right">{tasksLog[task].blocker}</TableCell>
+                    <TableCell align="right">
+                      <span>
+                        <button 
+                          type="button" onClick={()=> handleSelectedTask(tasksLog[task].id)}
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                        >
+                            <EditIcon />
+                        </button>
+                        <button 
+                          onClick={()=> handleDelete(tasksLog[task].id)}
+                          style={{ border: 'none', backgroundColor: 'white', cursor: 'pointer' }}
+                        >
+                          <RemoveIcon />
+                        </button>
+                      </span>
+                    </TableCell>
+                  </TableRow>
                 )
               })}
             </TableBody>
           </Table>
         </TableContainer>
+        <UpdateModal 
+          isOpen={openUpdate}
+          handleClick={()=> setOpenUpdate(!openUpdate)}
+        />
       </>
   );
 }

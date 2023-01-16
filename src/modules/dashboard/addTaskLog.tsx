@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators as dashboardAction } from "./reducer";
 import { ApplicationState } from "../../store/reducer";
-// import { getTasksStart, createTaskStart } from './reducer';
 import { TasksState } from './interface';
 import Button from '@mui/material/Button';
 import { Link, useNavigate } from 'react-router-dom';
+import UpdateModal from './updateModal';
 
 const initialState =
   {
@@ -17,15 +17,12 @@ const initialState =
 const AddTaskLog = () => {
 
   const [taskLogValue, setTaskLogValue] = useState(initialState);
-  const taskLog = useSelector((state: ApplicationState) => state.dashboard.tasks)
   const dispatch = useDispatch();
 
-  // console.log('taskLog: ', taskLogValue);
   const handleSubmit = (e: any) => {
     e.preventDefault();
     if(taskLogValue.task_yesterday && taskLogValue.task_today || taskLogValue.blocker) {
         dispatch(dashboardAction.createTask(taskLogValue));
-      // setTimeout(() => navigate('/'), 500);
     }
   }
 
