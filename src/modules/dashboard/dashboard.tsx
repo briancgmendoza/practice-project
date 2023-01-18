@@ -9,7 +9,7 @@ export function Dashboard() {
   const isLoading = useSelector((state: ApplicationState) => state.dashboard.isLoading)
   return (
     <>
-      {isLoading ? <Loading /> : <MiniDrawer />}
+    <MiniDrawer />
     </>
   )
 }
